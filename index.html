@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#18200f">
+  <meta name="description" content="The Tell — a private audio experience prepared for Suzanne.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Tell — Suzanne">
+  <meta property="og:description" content="A private audio experience prepared for Suzanne.">
+  <meta property="og:image" content="https://assets.cdn.filesafe.space/erNBMEPHr5mwBKO660ir/media/6a56acd360d0bb1c1a295d88.png">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="400">
+  <meta property="og:image:alt" content="The Tell, prepared for Suzanne">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Tell — Suzanne">
+  <meta name="twitter:description" content="A private audio experience prepared for Suzanne.">
+  <meta name="twitter:image" content="https://assets.cdn.filesafe.space/erNBMEPHr5mwBKO660ir/media/6a56acd360d0bb1c1a295d88.png">
+
+  <title>The Tell — Suzanne</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #12170c;
+      --forest: #1b2412;
+      --forest-soft: #253019;
+      --cream: #e9ddbd;
+      --gold: #c49a52;
+      --gold-bright: #dfb869;
+      --rust: #a84d1f;
+      --muted: #a79d7d;
+      --line: rgba(221, 183, 104, 0.28);
+      --shadow: rgba(0, 0, 0, 0.44);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(201, 157, 77, 0.09), transparent 32rem),
+        radial-gradient(circle at 90% 110%, rgba(160, 71, 27, 0.12), transparent 34rem),
+        repeating-linear-gradient(35deg, rgba(255,255,255,0.009) 0 1px, transparent 1px 4px),
+        var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background:
+        repeating-linear-gradient(88deg, transparent 0 5px, rgba(255,255,255,0.012) 5px 6px),
+        repeating-linear-gradient(2deg, transparent 0 7px, rgba(0,0,0,0.08) 7px 8px);
+    }
+
+    .shell {
+      position: relative;
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    .hero {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--forest);
+      box-shadow: 0 30px 80px var(--shadow);
+    }
+
+    .hero video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2 / 1;
+      object-fit: cover;
+    }
+
+    .player {
+      position: relative;
+      width: min(860px, calc(100% - 32px));
+      margin: -28px auto 0;
+      padding: 34px 36px 30px;
+      border: 1px solid rgba(220, 183, 104, 0.34);
+      border-radius: 3px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.035), transparent 40%),
+        rgba(24, 32, 15, 0.975);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      backdrop-filter: blur(14px);
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--gold);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0 24px;
+      color: var(--rust);
+      font-size: 18px;
+    }
+
+    .rule::before,
+    .rule::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, transparent, var(--rust));
+    }
+
+    .rule::after { background: linear-gradient(90deg, var(--rust), transparent); }
+
+    .transport {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .play {
+      display: grid;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: var(--ink);
+      background: var(--gold);
+      box-shadow: 0 8px 25px rgba(196,154,82,0.18);
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .play:hover { transform: scale(1.04); background: var(--gold-bright); }
+    .play:active { transform: scale(0.97); }
+    .play:focus-visible, button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 2px solid var(--cream);
+      outline-offset: 4px;
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      margin-left: 5px;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 14px solid currentColor;
+    }
+
+    .is-playing .play-icon {
+      width: 14px;
+      height: 18px;
+      margin-left: 0;
+      border: 0;
+      border-left: 5px solid currentColor;
+      border-right: 5px solid currentColor;
+    }
+
+    .timeline { min-width: 0; }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      margin: 0;
+      border-radius: 999px;
+      appearance: none;
+      background: linear-gradient(to right, var(--gold) var(--fill, 0%), rgba(233,221,189,0.18) var(--fill, 0%));
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--forest);
+      border-radius: 50%;
+      appearance: none;
+      background: var(--gold-bright);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--forest);
+      border-radius: 50%;
+      background: var(--gold-bright);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    .secondary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .volume-group { display: flex; align-items: center; gap: 10px; }
+    .volume-group input { width: 90px; }
+
+    .icon-button, .speed {
+      border: 0;
+      color: var(--muted);
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .icon-button { padding: 6px; font-size: 17px; }
+    .speed { padding: 7px 10px; border: 1px solid var(--line); font-size: 12px; letter-spacing: 0.05em; }
+    .icon-button:hover, .speed:hover { color: var(--cream); }
+
+    .listen-link {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.13em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .listen-link:hover { color: var(--cream); }
+
+    footer {
+      padding: 30px 0 0;
+      color: rgba(233,221,189,0.45);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .noscript {
+      margin-top: 18px;
+      color: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(100% - 20px, 1120px); padding-top: 10px; }
+      .hero { border-radius: 2px; }
+      .hero video { min-height: 260px; object-position: 50% center; }
+      .player { width: calc(100% - 20px); margin-top: -16px; padding: 27px 20px 24px; }
+      .transport { grid-template-columns: 1fr; }
+      .play { width: 58px; height: 58px; }
+      .secondary { flex-wrap: wrap; }
+      .listen-link { width: 100%; padding-top: 6px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <section class="hero" aria-label="The Tell, prepared for Suzanne">
+      <video autoplay muted loop playsinline preload="auto" aria-label="The Tell — prepared for Suzanne">
+        <source src="hero-video.mp4" type="video/mp4">
+      </video>
+    </section>
+
+    <section class="player" id="player" aria-labelledby="audio-title">
+      <p class="eyebrow">A private recording for</p>
+      <h1 id="audio-title">Suzanne</h1>
+      <div class="rule" aria-hidden="true">✦</div>
+
+      <audio id="audio" preload="metadata">
+        <source src="suzanne-the-tell.m4a" type="audio/mp4">
+      </audio>
+
+      <div class="transport">
+        <button class="play" id="play" type="button" aria-label="Play The Tell">
+          <span class="play-icon" aria-hidden="true"></span>
+        </button>
+
+        <div class="timeline">
+          <input id="progress" type="range" min="0" max="100" value="0" step="0.01" aria-label="Audio progress">
+          <div class="time-row" aria-live="off">
+            <span id="current">0:00</span>
+            <span id="duration">—:—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="secondary">
+        <div class="volume-group">
+          <button class="icon-button" id="mute" type="button" aria-label="Mute audio">●</button>
+          <input id="volume" type="range" min="0" max="1" value="0.8" step="0.01" aria-label="Volume">
+        </div>
+
+        <button class="speed" id="speed" type="button" aria-label="Change playback speed">1×</button>
+
+        <a class="listen-link" href="suzanne-the-tell.m4a" target="_blank" rel="noopener">Open audio file ↗</a>
+      </div>
+
+      <noscript>
+        <p class="noscript"><a href="suzanne-the-tell.m4a">Listen to Suzanne’s recording</a></p>
+      </noscript>
+    </section>
+
+    <footer>The Tell · Prepared especially for Suzanne</footer>
+  </main>
+
+  <script>
+    (() => {
+      const audio = document.getElementById('audio');
+      const player = document.getElementById('player');
+      const play = document.getElementById('play');
+      const progress = document.getElementById('progress');
+      const current = document.getElementById('current');
+      const duration = document.getElementById('duration');
+      const mute = document.getElementById('mute');
+      const volume = document.getElementById('volume');
+      const speed = document.getElementById('speed');
+      const speeds = [1, 1.25, 1.5, 1.75, 2, 0.75];
+      let speedIndex = 0;
+
+      const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return '—:—';
+        const whole = Math.max(0, Math.floor(seconds));
+        const hours = Math.floor(whole / 3600);
+        const minutes = Math.floor((whole % 3600) / 60);
+        const secs = String(whole % 60).padStart(2, '0');
+        return hours ? `${hours}:${String(minutes).padStart(2, '0')}:${secs}` : `${minutes}:${secs}`;
+      };
+
+      const setRangeFill = (element, percent) => {
+        element.style.setProperty('--fill', `${Math.max(0, Math.min(100, percent))}%`);
+      };
+
+      const setPlayState = (playing) => {
+        player.classList.toggle('is-playing', playing);
+        play.setAttribute('aria-label', playing ? 'Pause The Tell' : 'Play The Tell');
+      };
+
+      play.addEventListener('click', async () => {
+        if (audio.paused) {
+          try { await audio.play(); } catch (error) { setPlayState(false); }
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener('play', () => setPlayState(true));
+      audio.addEventListener('pause', () => setPlayState(false));
+      audio.addEventListener('ended', () => setPlayState(false));
+
+      audio.addEventListener('loadedmetadata', () => {
+        progress.max = Number.isFinite(audio.duration) ? audio.duration : 100;
+        duration.textContent = formatTime(audio.duration);
+      });
+
+      audio.addEventListener('durationchange', () => {
+        if (Number.isFinite(audio.duration)) {
+          progress.max = audio.duration;
+          duration.textContent = formatTime(audio.duration);
+        }
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (!progress.matches(':active')) progress.value = audio.currentTime;
+        current.textContent = formatTime(audio.currentTime);
+        setRangeFill(progress, audio.duration ? (audio.currentTime / audio.duration) * 100 : 0);
+      });
+
+      progress.addEventListener('input', () => {
+        if (Number.isFinite(audio.duration)) audio.currentTime = Number(progress.value);
+        setRangeFill(progress, (Number(progress.value) / Number(progress.max)) * 100);
+      });
+
+      audio.volume = Number(volume.value);
+      setRangeFill(volume, audio.volume * 100);
+
+      volume.addEventListener('input', () => {
+        audio.volume = Number(volume.value);
+        audio.muted = audio.volume === 0;
+        mute.textContent = audio.muted ? '○' : '●';
+        mute.setAttribute('aria-label', audio.muted ? 'Unmute audio' : 'Mute audio');
+        setRangeFill(volume, audio.volume * 100);
+      });
+
+      mute.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        mute.textContent = audio.muted ? '○' : '●';
+        mute.setAttribute('aria-label', audio.muted ? 'Unmute audio' : 'Mute audio');
+      });
+
+      speed.addEventListener('click', () => {
+        speedIndex = (speedIndex + 1) % speeds.length;
+        audio.playbackRate = speeds[speedIndex];
+        speed.textContent = `${speeds[speedIndex]}×`;
+      });
+
+      document.addEventListener('keydown', (event) => {
+        const tag = document.activeElement?.tagName;
+        if (event.code === 'Space' && !['BUTTON', 'INPUT', 'A'].includes(tag)) {
+          event.preventDefault();
+          play.click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
